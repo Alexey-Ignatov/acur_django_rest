@@ -7,22 +7,26 @@ from acur_research.models import CheckPosition, CheckHead
 class CheckPositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckPosition
-        fields = ('check_head', 'check_uuid', 'pos_uuid', 'product_uuid', 'product_name', 'quantity', 'price')
+        fields = ('pos_uuid', 'product_uuid', 'product_name', 'quantity', 'price')
 
 
 class CheckHeadSerializer(serializers.ModelSerializer):
-    check_pos = serializers.StringRelatedField(many=True)
+    check_pos = CheckPositionSerializer(many=True)
     class Meta:
         model = CheckHead
-        fields = ('device_id', 'uuid', 'check_data', 'check_number', 'check_pos')
-
-#CheckHead(1, 'uuid', '2019-01-01 01:01', 'check_number')
+        fields = ('device_id', 'uuid', 'check_date', 'check_number',    'check_pos')
 
 
+    def create(self, validated_data):
+        print(validated_data)
+        check_pos = validated_data.pop('check_pos')
 
-#inDate = "29-Apr-2013-15:59:02"
-#d= datetime.strptime(inDate, "%d-%b-%Y-%H:%M:%S")
+        new_check = CheckHead.objects.create(**validated_data)
+        for param_d in check_pos:
+            param_d['check_head'] = new_check
+            CheckPosition.objects.create(**param_d)
 
 
+        return  new_check
 
 

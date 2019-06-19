@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('device_id', models.CharField(max_length=36)),
                 ('uuid', models.CharField(max_length=36, unique=True)),
-                ('check_data', models.DateTimeField()),
+                ('check_date', models.DateTimeField()),
                 ('check_number', models.CharField(max_length=12)),
             ],
         ),

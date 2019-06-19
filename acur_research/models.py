@@ -56,11 +56,11 @@ class Answer(models.Model):
 class CheckHead(models.Model):
     device_id = models.CharField(max_length=36)
     uuid = models.CharField(max_length=36, unique=True)
-    check_data = models.DateTimeField()
+    check_date = models.DateTimeField()
     check_number = models.CharField(max_length=12)
 
     def decor_data(self):
-        return self.check_data.strftime('%d.%m.%Y %H:%M:%S')
+        return self.check_date.strftime('%d.%m.%Y %H:%M:%S')
 
     def __unicode__(self):
         return u'%s от %s' % (self.uuid, self.decor_data())
@@ -70,7 +70,6 @@ class CheckHead(models.Model):
 
 class CheckPosition(models.Model):
     check_head = models.ForeignKey(CheckHead, on_delete=models.CASCADE,  related_name='check_pos')
-    check_uuid = models.CharField('Чек', max_length=36)
     pos_uuid = models.CharField('Позиция', max_length=36)
     product_uuid = models.CharField(max_length=36)
     product_name = models.CharField('Наименование', max_length=255)
