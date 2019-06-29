@@ -53,11 +53,21 @@ class Answer(models.Model):
         ordering = ['question_id', 'id']
 
 
+
+class CheckPhoneNumber(models.Model):
+    tel_str = models.CharField('Номер телефона', max_length=36)
+
+    def __unicode__(self):
+        return self.tel_str
+
+
 class CheckHead(models.Model):
     device_id = models.CharField(max_length=36)
     uuid = models.CharField(max_length=36, unique=True)
     check_date = models.DateTimeField()
-    check_number = models.CharField(max_length=12)
+    check_number = models.CharField(max_length=12, null=True, blank= True)
+    tel_no = models.ForeignKey(CheckPhoneNumber, on_delete=models.DO_NOTHING, null=True)
+
 
     def decor_data(self):
         return self.check_date.strftime('%d.%m.%Y %H:%M:%S')
@@ -97,6 +107,66 @@ class UploadFile(models.Model):
     file_obj = models.FileField(upload_to='media/', null=True, blank=True)
 
 
+
+class WebhookTransaction(models.Model):
+    UNPROCESSED = 1
+    PROCESSED = 2
+    ERROR = 3
+
+    STATUSES = (
+        (UNPROCESSED, 'Unprocessed'),
+        (PROCESSED, 'Processed'),
+        (ERROR, 'Error'),
+    )
+
+    date_generated = models.DateTimeField()
+    date_received = models.DateTimeField()
+    body = models.CharField(max_length=1250)
+    request_meta = models.CharField(max_length=1250)
+    status = models.CharField(max_length=250, choices=STATUSES, default=UNPROCESSED)
+
+    def __unicode__(self):
+        return u'{0}'.format(self.date_event_generated)
+
+
+
+
+#data={
+#    "answer": {
+#        "id": 7902316,
+#        "survey_id": 244144,
+#        "revision_id": 375478,
+#        "start_date": 1561213524,
+#        "finish_date": 1561213553,
+#        "status": "v",
+#        "collector": {
+#            "swagger_type": "SurveyDirectCollector",
+#            "type": "direct",
+#            "name": "\u041f\u0440\u044f\u043c\u0430\u044f \u0441\u0441\u044b\u043b\u043a\u0430",
+#            "direct_url": "https:\/\/anketolog.ru\/s\/244144\/OAnyo3Ff"
+#        }
+#    }
+
+
+class PollResult(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    survey_id = models.BigIntegerField()
+    revision_id = models.BigIntegerField()
+    start_date = models.BigIntegerField()
+    finish_date = models.BigIntegerField()
+    status = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return str(id)
+
+
+class EvoUser(models.Model):
+    userId = models.CharField(max_length=200, unique=True)
+    token = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return str(self.user_id)
+
 # для возможного дальнейшего написания нормальной красивой админки
 #class ExtUser(models.Model):
 #    user = models.OneToOneField(User)
@@ -106,9 +176,7 @@ class UploadFile(models.Model):
 #        return self.user.username
 
 
-User.profile = property(lambda u: ExtUser.objects.get_or_create(user=u)[0])
-
-
+#User.profile = property(lambda u: ExtUser.objects.get_or_create(user=u)[0])
 
 
 
