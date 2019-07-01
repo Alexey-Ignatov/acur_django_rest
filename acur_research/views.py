@@ -217,6 +217,31 @@ def webhook(request):
         return JsonResponse(serializer.data, status=201)
     return JsonResponse(serializer.errors, status=400)
 
+
+
+
+@csrf_exempt
+def get_last_some(request, pk):
+    """
+    Retrieve, update or delete a code snippet.
+    """
+
+    meta = request.META
+    deviceID = 'TEST'
+    if 'HTTP_X_EVOTOR_DEVICE_UUID' in meta:
+        deviceID = meta.get('HTTP_X_EVOTOR_DEVICE_UUID')
+
+
+
+    all_my_completed = CheckHead.objects.filter(device_id=deviceID, tel_no__isnull = False).order_by('-id')[:int(pk)]
+
+    if request.method == 'GET':
+        resp_data= {'numbers': [l.tel_no.tel_str for l in all_my_completed]}
+        return JsonResponse(resp_data)
+    return JsonResponse({'result': []})
+
+
+
 def index(request):
    print('index_trololo')
    return HttpResponse('US37MZnTroVjLpx_53c9TelbGskqRslNf8EgvO_lKWLYTd8I7ufO7Kl053Wp')

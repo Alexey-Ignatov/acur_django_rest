@@ -14,6 +14,7 @@ router.register(r'evoauthtoken', views.EvoCloudTokenViewSet)
 urlpatterns = [
     path('checkneedpoll/<str:pk>/', views.need_poll),
     path('setphone/<str:pk>/', views.set_phone),
+    path("compl_tels/<int:pk>/", views.get_last_some),
     path('', include(router.urls))
 ]
 
