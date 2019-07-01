@@ -236,6 +236,7 @@ def get_last_some(request, pk):
     all_my_completed = CheckHead.objects.filter(device_id=deviceID, tel_no__isnull = False).order_by('-id')[:int(pk)]
 
     if request.method == 'GET':
+        logging.warning('create + trololo+ begin' + str([l.tel_no.tel_str for l in all_my_completed]))
         resp_data= {'numbers': [l.tel_no.tel_str for l in all_my_completed]}
         return JsonResponse(resp_data)
     return JsonResponse({'result': []})
