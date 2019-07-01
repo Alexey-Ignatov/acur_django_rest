@@ -16,6 +16,7 @@ from rest_framework import viewsets
 from acur_research.analytic import poll_is_needed
 from rest_framework.decorators import action
 import logging
+from twilio.rest import Client
 
 
 import copy, json, datetime
@@ -67,9 +68,6 @@ class PollResultViewSet(viewsets.ModelViewSet):
     queryset = PollResult.objects.all()
     serializer_class = PollResultSerializer
 
-
-
-
     def create(self, request):
         #logging.warning('create + trololo+ begin' + str(request))
         logging.warning('create + trololo+ begin' + str(request.data))
@@ -80,6 +78,9 @@ class PollResultViewSet(viewsets.ModelViewSet):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=407)
+
+
+
 
 
 class CheckHeaderViewSet(viewsets.ModelViewSet):
@@ -126,12 +127,6 @@ class CheckHeaderViewSet(viewsets.ModelViewSet):
 
 
 
-class CheckPosViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = CheckPosition.objects.all()
-    serializer_class = CheckPositionSerializer
 
 
 @csrf_exempt
@@ -167,6 +162,19 @@ def set_phone(request, pk):
             phone_obj = serializer.save()
             curr_check.tel_no = phone_obj
             curr_check.save()
+
+            account_sid = 'AC1951c9d363cbfebedd5c43183002c9df'
+            auth_token = '06243a6dccddc70b95461ce3bd326612'
+            client = Client(account_sid, auth_token)
+
+            message = client.messages \
+                .create(
+                body="https://anketolog.ru/s/245974/QGWYwXCh?ap_check=" + curr_check.uuid,
+                from_='+12055572693',
+                to='+'+ phone_obj.tel_str
+            )
+
+
 
             return JsonResponse(CheckHeadSerializer(curr_check).data)
         return JsonResponse(serializer.errors, status=400)
@@ -210,5 +218,8 @@ def webhook(request):
 
 def index(request):
    print('index_trololo')
-   return HttpResponse('~WHHaw8Ms52aHVJlUvIruxHALHw0lm6Z5lAv6qiqNCmtDDh88tkcNzGDQp2P')
+   return HttpResponse('US37MZnTroVjLpx_53c9TelbGskqRslNf8EgvO_lKWLYTd8I7ufO7Kl053Wp')
 
+
+
+#def get_last_comp_poll(request, pk):

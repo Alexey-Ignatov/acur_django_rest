@@ -7,7 +7,7 @@ from django.conf.urls import include, url
 
 router = routers.DefaultRouter()
 router.register(r'checkheaders', views.CheckHeaderViewSet)
-router.register(r'checkpos', views.CheckPosViewSet)
+#router.register(r'checkpos', views.CheckPosViewSet)
 router.register(r'webhook', views.PollResultViewSet)
 router.register(r'evoauthtoken', views.EvoCloudTokenViewSet)
 
