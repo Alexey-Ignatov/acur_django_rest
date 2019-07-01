@@ -1,0 +1,100 @@
+{
+  "type": "object",
+  "required": ["answers"],
+  "properties": {
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "answer_count": {
+      "type": "number"
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "additional_params"],
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "survey_id": {
+            "type": "number"
+          },
+          "revision_id": {
+            "type": "number"
+          },
+          "start_date": {
+            "type": "number"
+          },
+          "finish_date": {
+            "type": "number"
+          },
+          "questions_answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "question_id": {
+                  "type": "number"
+                },
+                "question_type": {
+                  "type": "string"
+                },
+                "question_answer": {
+                  "type": "object",
+                  "required": [],
+                  "properties": {
+                    "swagger_type": {
+                      "type": "string"
+                    },
+                    "answer": {
+                      "type": "object",
+                      "required": [],
+                      "properties": {
+                        "options": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [],
+                            "properties": {
+                              "option_id": {
+                                "type": "number"
+                              },
+                              "answer_value": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "additional_params": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "value"],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

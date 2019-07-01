@@ -17,7 +17,8 @@ from acur_research.analytic import poll_is_needed
 from rest_framework.decorators import action
 import logging
 from twilio.rest import Client
-
+from jsonschema import validate
+import jsonschema
 
 import copy, json, datetime
 from rest_framework import permissions
@@ -223,3 +224,9 @@ def index(request):
 
 
 #def get_last_comp_poll(request, pk):
+
+
+
+
+
+

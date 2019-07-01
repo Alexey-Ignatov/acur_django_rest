@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from acur_research.models import CheckPosition, CheckHead, CheckPhoneNumber,PollResult, EvoUser
 
+
+from django.http import Http404
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-
+import acur_research.utils as utils
 #from snippets.models import S
 
 class CheckPositionSerializer(serializers.ModelSerializer):
@@ -50,8 +52,28 @@ class PollResultSerializer(serializers.ModelSerializer):
         model = PollResult
         fields = ('id' ,'survey_id', 'revision_id', 'start_date', 'finish_date', 'status')
 
+    def create(self, validated_data):
+        validated_data_upd = validated_data
+
+        surv_id = validated_data_upd['survey_id']
+        answ_id = validated_data_upd['id']
+        check_uuid = utils.get_checkuuid_by_answ_id(surv_id, answ_id)
+
+        try:
+            curr_check = CheckHead.objects.get(uuid=check_uuid)
+        except CheckHead.DoesNotExist:
+            raise Http404
+
+        validated_data_upd['check_head'] = curr_check
+        return PollResult.objects.create(**validated_data_upd)
+
+
 
 class EvoUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvoUser
         fields = ('userId', 'token')
+
+
+
+

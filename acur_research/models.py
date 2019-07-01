@@ -155,6 +155,7 @@ class PollResult(models.Model):
     start_date = models.BigIntegerField()
     finish_date = models.BigIntegerField()
     status = models.CharField(max_length=100)
+    check_head = models.ForeignKey(CheckHead, on_delete=models.DO_NOTHING)
 
     def __unicode__(self):
         return str(id)
