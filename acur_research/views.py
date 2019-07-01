@@ -238,8 +238,8 @@ def get_last_some(request, pk):
     if request.method == 'GET':
         logging.warning('create + trololo+ begin' + str([l.tel_no.tel_str for l in all_my_completed]))
         resp_data= [l.tel_no.tel_str for l in all_my_completed]
-        return JsonResponse(resp_data)
-    return JsonResponse([])
+        return JsonResponse(resp_data, safe=False)
+    return JsonResponse([], safe=False)
 
 
 
