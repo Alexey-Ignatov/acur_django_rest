@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 #-*- coding: utf-8 -*-
 from django.contrib import admin
-from acur_research.models import Contragent,Poll,Question,Answer,UploadFile,QuestionResult, CheckHead, CheckPhoneNumber
+from acur_research.models import Contragent,Poll,Question,Answer,UploadFile,QuestionResult, CheckHead, CheckPhoneNumber, PollResult
 from acur_research.models import CheckPosition
 
 # Register your models here.
@@ -64,6 +64,12 @@ class PhoneAdmin(admin.ModelAdmin):
     list_display = ('tel_str',)
 
 
+class PollResultAdmin(admin.ModelAdmin):
+    list_display = ('id' ,'survey_id', 'revision_id', 'start_date', 'finish_date', 'status', 'check_uuid')
+
+    def check_uuid(self, obj):
+        return obj.check_head.uuid
+
 
 admin.site.register(Contragent,ContragentAdmin)
 admin.site.register(Poll,PollAdmin)
@@ -74,4 +80,5 @@ admin.site.register(QuestionResult,QuestionResultAdmin)
 admin.site.register(CheckHead, CheckAdmin)
 admin.site.register(CheckPosition, CheckPosAdmin)
 admin.site.register(CheckPhoneNumber,PhoneAdmin)
+admin.site.register(PollResult,PollResultAdmin)
 
