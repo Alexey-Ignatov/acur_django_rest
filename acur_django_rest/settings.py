@@ -25,7 +25,7 @@ SECRET_KEY = 'newz33p9do-co&59rq_xy-oy)p_@=t&p9b9rko99#^_elc3t4-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1','10.8.10.201', 'acur-research.ru', '194.87.236.18', 'google.com']
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1','10.8.10.201', 'acur-research.ru', '194.87.236.18', '*']
 
 
 # Application definition
