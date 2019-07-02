@@ -237,10 +237,10 @@ def get_last_some(request, pk):
 
 
 
-    all_my_completed = CheckHead.objects.filter(device_id=deviceID, tel_no__isnull = False).order_by('-id')[:int(pk)]
+    all_my_completed = PollResult.objects.filter(check_head__device_id=deviceID).order_by('-id')[:int(pk)]
 
     if request.method == 'GET':
-        logging.warning('create + trololo+ begin' + str([l.tel_no.tel_str for l in all_my_completed]))
+        logging.warning('create + trololo+ begin' + str([l.check_head.tel_no.tel_str for l in all_my_completed]))
         resp_data= [l.tel_no.tel_str for l in all_my_completed]
         return JsonResponse(resp_data, safe=False)
     return JsonResponse([], safe=False)
