@@ -168,6 +168,10 @@ def set_phone(request, pk):
             auth_token = '06243a6dccddc70b95461ce3bd326612'
             client = Client(account_sid, auth_token)
 
+            if phone_obj.tel_str!= '79533700495':
+                return JsonResponse(CheckHeadSerializer(curr_check).data)
+            #TODO FIX
+
             message = client.messages \
                 .create(
                 body="https://anketolog.ru/s/245974/QGWYwXCh?ap_check=" + curr_check.uuid,
