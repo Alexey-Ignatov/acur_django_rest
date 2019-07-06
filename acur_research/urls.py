@@ -11,7 +11,7 @@ router.register(r'checkheaders', views.CheckHeaderViewSet)
 #router.register(r'checkpos', views.CheckPosViewSet)
 router.register(r'webhook', views.PollResultViewSet)
 router.register(r'evoauthtoken', views.EvoCloudTokenViewSet)
-router.register(r'servcheck', views.ServicesCheckViewSet)
+router.register(r'servcheck', ServicesCheckViewSet)
 
 
 
